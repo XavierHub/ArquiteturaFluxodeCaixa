@@ -9,7 +9,6 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 - Microsoft Visual Studio Enterprise 2022
 - C#
 - Asp.Net WebApi
-- Asp.Net MVC
 - Swagger
 - XUnit
 - Moq
@@ -28,9 +27,6 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 
 ### ASP.NET Web API
 **Motivo**: Permite a construção de serviços RESTful eficientes e escaláveis que podem ser facilmente consumidos por diferentes clientes (web, mobile, etc.). A ASP.NET Web API é conhecida por sua performance e capacidade de lidar com alta carga de requisições, essencial para o serviço de consolidado diário.
-
-### ASP.NET MVC
-**Motivo**: Facilita a construção de aplicações web robustas seguindo o padrão MVC, separando as preocupações e promovendo a manutenção e escalabilidade do código. Ideal para a criação de interfaces de usuário (UI) ricas e interativas.
 
 ### Swagger
 **Motivo**: Ferramenta para documentação e teste de APIs RESTful. Facilita o desenvolvimento colaborativo e garante que as APIs sejam bem documentadas e fáceis de testar, o que é crucial para a manutenção e evolução do sistema.
