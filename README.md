@@ -88,7 +88,7 @@ O padrão Chain of Responsibility, implementado através de middleware no .NET 8
 
 ###Modelagem do Banco de dados
 
-![Screenshots](Diagramas de Entidade-Relacionamento.PNG) <br><br>
+![Screenshots](EntidaderRlacionamento.PNG) <br><br>
 
 
 ## Solução
