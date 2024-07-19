@@ -132,7 +132,7 @@ Para executar o projeto segui as seguintes etapas
    Entre na pasta "src\EmpXpo.Accounting.Database\Scripts"
    Utilize o arquivo "banco.sql" para criar o banco de dados, tabelas e procedure
 
-3) Pegue a string de conexão para o banco "DbCashFlow" criado anteriormente pelo script
+3) Pegue a string de conexão para o banco "DbAccounting" criado anteriormente pelo script
 
 4) Abra a solução src/EmpXpo.Accounting.sln com o Visual Studio
 
