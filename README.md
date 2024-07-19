@@ -107,14 +107,37 @@ Essa abordagem garante que o sistema de controle de fluxo de caixa funcione de m
 
 ## Padrões de Design
 - Domain Driven Design(DDD)
+- Domain Notifications
 - Inversion of Control (IoC ou inversão de controle)
-- Model-View-ViewModel (MVVM)
 - Repository Pattern (com Dapper)
 - [Options pattern](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-8.0)
 - [Chain of Responsibility (.Net8 Middleware)](https://learn.microsoft.com/pt-br/aspnet/core/fundamentals/middleware/?view=aspnetcore-8.0)
 
 ### Domain Driven Design (DDD)
 O DDD permite que a complexidade da lógica de negócios seja gerenciada de forma mais eficaz, organizando o código em torno dos domínios e subdomínios da aplicação. Isso facilita a comunicação entre os desenvolvedores e os especialistas no domínio, garantindo que a solução atenda de forma precisa aos requisitos de negócios.
+
+### Domain Notifications
+Para o sistema de controle de fluxo de caixa, utilizaremos o padrão **Domain Notifications** para validação de modelos em vez de lançar exceções. Aqui estão os motivos:
+
+##### 1. **Resiliência e Continuidade**
+- **Descrição:** Permite que o sistema continue processando sem interrupções, mesmo se houver erros de validação.
+- **Vantagem:** Mantém o serviço operacional e evita interrupções, essencial quando o sistema de consolidação pode enfrentar falhas.
+
+#### 2. **Feedback Detalhado**
+- **Descrição:** Acumula e apresenta todos os erros de validação em um único ponto.
+- **Vantagem:** Oferece um feedback mais completo e claro para o comerciante corrigir problemas de forma eficiente.
+
+#### 3. **Melhoria na Experiência do Usuário**
+- **Descrição:** Fornece mensagens de erro específicas e contextuais.
+- **Vantagem:** Melhora a compreensão dos erros pelo usuário, facilitando a correção.
+
+#### 4. **Gestão Eficiente das Regras de Negócio**
+- **Descrição:** Centraliza a lógica de validação e regras de negócios.
+- **Vantagem:** Simplifica a manutenção e a adaptação das regras de validação.
+
+#### 5. **Escalabilidade e Performance**
+- **Descrição:** Trata erros de forma estruturada e evita sobrecarga de exceções.
+- **Vantagem:** Ajuda a manter a performance e a disponibilidade, mesmo em picos de carga com até 500 requisições por segundo.
 
 ### Inversion of Control (IoC)
 IoC promove a flexibilidade e testabilidade do código ao permitir a injeção de dependências em vez de instanciá-las diretamente. Isso facilita a implementação de testes unitários e promove a adesão aos princípios SOLID, resultando em um código mais modular e de fácil manutenção.
