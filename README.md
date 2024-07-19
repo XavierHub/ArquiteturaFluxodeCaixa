@@ -98,7 +98,7 @@ A solução foi organizada em pastas conforme a figura abaixo.
 - "06 Database" está o projeto de banco de dados.
    Com este projeto é possível ver facilmente ver as ultimas alterações, comparar os objetos do banco de dados, gerar scripts para alteração e caso necessário fazer updates 
 
-![Screenshots](dbCompare.PNG) <br><br>
+![Screenshots](dbCompare.png) <br><br>
 
 - "07 Tests" estão os testes de unidades das classes do sistema
 
@@ -112,7 +112,7 @@ Utilizamos Inversion of Control e DDD para temos os seguintes benefícios:
 4) Segregação das responsabilidades
 5) Compartilhamento de conhecimento com outros desenvolvedores
 
-![Screenshots](arquiteturaEmCamadas.PNG) <br><br>
+![Screenshots](arquiteturaEmCamadas.png) <br><br>
 
 Utilizamos a micro ORM dapper ao invés do EntityFramework pois o dapper é performático no cenário de pico de 500 inclusões por segundo.
 
@@ -137,7 +137,7 @@ Para executar o projeto segui as seguintes etapas
    
    ```
    "ConnectionStrings": {
-		"cnSqlCacheFlow": "Sua ConnectionString aqui!"
+		"cnSqlDbAccounting": "Sua ConnectionString aqui!"
 	}
    ```
 
@@ -165,4 +165,3 @@ Para executar os testes de unidade dentro do Visual Studio acesse a pasta "07 Te
 
 Clique com o botão direito no projeto "CashFlowTests" click em "Run Tests"
 
-![Screenshots](runTests.png) <br><br>
