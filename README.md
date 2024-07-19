@@ -96,7 +96,6 @@ A solução foi organizada em pastas conforme a figura abaixo.
 
 ![Screenshots](estruturaDaSolucao.png) <br><br>
 
-- "00 WebApp" está a aplicação principal feita em Asp.Net MVC aonde o cliente poderá fazer o lançamento de credito e debito e visualizar o relatório consolidado do dia
 - "01 WebApi" estão a Apis que disponibiliza as informações do fluxo de caixa utilizado no projeto MVC.
 - "02 Domain", "03 Application", 04 Repository", "05 IoC" são as camadas da aplicação utilizados nos projetos MVC e WebApi
 - "06 Database" está o projeto de banco de dados.
