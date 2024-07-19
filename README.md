@@ -20,6 +20,7 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 - Log Analytics
 - Azure Monitor,
 - Azure API Management
+- Azure Functions
 
 ## Justificativa das Tecnologias Utilizadas
 
@@ -85,6 +86,23 @@ Para garantir a robustez e eficiência do sistema de controle de fluxo de caixa,
 - **Segurança e Controle:** A plataforma oferece recursos avançados de segurança e controle, como autenticação, autorização e proteção contra ataques DDoS, garantindo a integridade e a proteção do sistema mesmo durante picos de carga.
 
 A utilização do **Azure API Management**, com seu sistema de cache, assegura que o sistema de controle de fluxo de caixa mantenha alta disponibilidade, escalabilidade e desempenho eficiente, mesmo durante períodos de alta demanda.
+
+## Azure Functions para Consolidação de Dados
+Para otimizar o desempenho e a eficiência do sistema de controle de fluxo de caixa, utilizaremos uma **Azure Function** que executa a consolidação dos dados da tabela `CashFlow` na tabela `Report` durante a madrugada. A seguir, detalhamos a justificativa para essa abordagem:
+
+- **Eficiência Operacional:** A **Azure Function** será configurada para rodar de madrugada, quando a carga no sistema é menor. Esta função irá consolidar os dados da tabela `CashFlow` e armazená-los na tabela `Report`. Consolidar dados periodicamente ajuda a reduzir o volume de dados processados em tempo real e melhora a eficiência do sistema.
+
+- **Desempenho em Consultas:** Ao consolidar os dados na tabela `Report`, o sistema evita a necessidade de realizar a consolidação em tempo real durante consultas para datas passadas. Isso reduz a carga de processamento e melhora o tempo de resposta das consultas, pois os dados já consolidados estão prontos para serem recuperados diretamente da tabela `Report`.
+
+- **Redução de Carga em Tempo Real:** Sem a necessidade de consolidar dados em tempo real, o sistema reduz a carga sobre os recursos durante o horário de pico e melhora a experiência do usuário ao fornecer respostas rápidas e consistentes para consultas.
+
+- **Automação e Escalabilidade:** A **Azure Function** oferece uma solução altamente escalável e automatizada para a consolidação de dados. Ela pode ser facilmente ajustada para lidar com variações na quantidade de dados, garantindo que a consolidação seja realizada de forma eficiente independentemente do volume de dados.
+
+- **Custo-Efetividade:** Executar a consolidação durante a madrugada, quando os custos de computação podem ser menores, otimiza os custos operacionais. A **Azure Function** é uma opção de baixo custo que permite executar a tarefa de consolidação de forma eficiente sem a necessidade de manter recursos dedicados constantemente.
+
+- **Simplicidade e Manutenção:** Usar uma **Azure Function** simplifica a arquitetura do sistema ao delegar a tarefa de consolidação a um componente separado. Isso facilita a manutenção e o gerenciamento, pois a função pode ser ajustada e atualizada sem afetar diretamente os componentes principais do sistema.
+
+Essa abordagem garante que o sistema de controle de fluxo de caixa funcione de maneira eficiente, escalável e econômica, proporcionando um desempenho otimizado nas consultas de dados históricos e aliviando a carga durante períodos de alta demanda.
 
 
 ## Padrões de Design
