@@ -80,6 +80,9 @@ O Options Pattern em .NET fornece uma maneira elegante de gerenciar configuraç�
 ### Chain of Responsibility (Middleware no .NET 8)
 O padrão Chain of Responsibility, implementado através de middleware no .NET 8, permite a construção de pipelines de processamento de requisições de forma modular e flexível. Cada middleware pode ser responsável por uma parte específica do processamento, como autenticação, logging, manipulação de erros, etc., promovendo uma arquitetura limpa e extensível.
 
+## Casos de Uso
+[Texto do Link](CasosDeUso/README.md)
+
 ## Desenho da solução
 ![Screenshots](DesenhoSolucao.PNG) <br><br>
 
