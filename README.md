@@ -218,8 +218,7 @@ Para executar o projeto segui as seguintes etapas
    ```
    
 8) Ajuste o "Startup Projects" do Visual Studio conforme a figura abaixo:
-    A aplicação MVC deve  iniciar após as WebApis
-
+   Apos esta configuração tecle no botão F5 para executar a aplicação
     ![Screenshots](startupProjects.png) <br><br>
 
 ## Testes
