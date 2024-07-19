@@ -118,8 +118,7 @@ Utilizamos a micro ORM dapper ao invés do EntityFramework pois o dapper é perf
 Criamos trs WebApis (lançamentos de crédito e débito CRUD do comerciante e outra para o relatório)
 Assim caso ocorra alguma indisponibilidade na api do relatório o sistema de lançamentos continuará funcionando.
 
-No sistema de relatório criamos duas procedures para melhorar a performance do banco de dados e um indice ('Ind_CashFlow_1') na tabela 'CashFlow' coluna 'CreatedOn'
-
+No sistema de relatório criamos duas procedures para melhorar a performance do banco de dados e um indice ('IX_CashFlow_CreatedOn') na tabela 'CashFlow' coluna 'CreatedOn'
 
 ## Execução da aplicação
 Para executar o projeto segui as seguintes etapas
