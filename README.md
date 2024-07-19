@@ -120,7 +120,7 @@ Utilizamos Inversion of Control e DDD para temos os seguintes benefícios:
 
 Utilizamos a micro ORM dapper ao invés do EntityFramework pois o dapper é performático no cenário de pico de 500 inclusões por segundo.
 
-Criamos uma aplicação WebMvc para o cliente fazer os lançamentos de crédito e débito e duas WebApi uma para os lançamento e outra para relatório
+Criamos trs WebApis (lançamentos de crédito e débito CRUD do comerciante e outra para o relatório)
 Assim caso ocorra alguma indisponibilidade na api do relatório o sistema de lançamentos continuará funcionando.
 
 No sistema de relatório criamos duas procedures para melhorar a performance do banco de dados e um indice ('Ind_CashFlow_1') na tabela 'CashFlow' coluna 'CreatedOn'
@@ -143,20 +143,6 @@ Para executar o projeto segui as seguintes etapas
    "ConnectionStrings": {
 		"cnSqlDbAccounting": "Sua ConnectionString aqui!"
 	}
-   ```
-
-7) Caso a aplicação "00 WebApp/EmpXpo.Accounting.WebApp" não encontre o endereço das Apis
-
-   Verifique o enereço de execução dos projetos "01 WebApi/EmpXpo.Accounting.CashFlowApi" e "01 WebApi\EmpXpo.Accounting.CashFlowReportApi"
-   no arquivo "Properties/launchSettings.json"
-
-   Coloque esse novo endereço no projeto "00 WebApp/EmpXpo.Accounting.WebApp"
-   no arquivo "appsettings.Development.json"
-   
-   
-   ```
-    "cnCashFlowReportApi": "https://localhost:7255/CashFlowReport",
-	"cnCashFlowApi": "https://localhost:7162/CashFlow",
    ```
    
 8) Ajuste o "Startup Projects" do Visual Studio conforme a figura abaixo:
