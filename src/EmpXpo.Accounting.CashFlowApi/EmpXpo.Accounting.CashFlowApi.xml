@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmpXpo.Accounting.CashFlowApi</name>
+    </assembly>
+    <members>
+        <member name="M:EmpXpo.Accounting.CashFlowApi.Controllers.CashFlowController.Create(EmpXpo.Accounting.CashFlowApi.CashFlowModel)">
+            <summary>
+            Create a specific CashFlow
+            </summary>        
+            <response code="201">CashFlow created</response>
+            <response code="400">CashFlow has missing/invalid values</response>
+            <response code="500">Can't create your cashFlow right now</response>
+        </member>
+        <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.Id">
+            <summary>
+            CashFlow Id
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.SellerId">
+            <summary>
+            Seller Id
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.Type">
+            <summary>
+            CashFlow Type
+            The available values ​​are 0 for Debit and 1 for Credit
+            </summary>
+            <example>0</example>
+        </member>
+        <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.Amount">
+            <summary>
+            Cash flow value must be entered without a negative or positive sign, 
+            the type is the one who will define the sign of the transaction
+            </summary>
+            <example>100.50</example>
+        </member>
+        <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.Description">
+            <summary>
+            Cash flow Description
+            </summary>
+            <example>Purchase of xpo product</example>
+        </member>
+    </members>
+</doc>
