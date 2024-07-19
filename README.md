@@ -16,6 +16,10 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 - Sql Server / Sql Server Management Studio
 - FluentValidation
 - RESTful
+- Application Insights
+- Log Analytics
+- Azure Monitor,
+- Azure API Management
 
 ## Justificativa das Tecnologias Utilizadas
 
@@ -66,6 +70,22 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 - **Visão Unificada:** Oferece uma visão consolidada da saúde do sistema, integrando dados de métricas, logs e eventos.
 - **Gerenciamento de Recursos:** Monitora e ajusta a escala dos recursos para manter a disponibilidade e o desempenho.
 - **Escalabilidade em Picos:** Ajuda a analisar e gerenciar o desempenho durante picos de carga para garantir a operação eficiente.
+
+## Azure API Management
+Para garantir a robustez e eficiência do sistema de controle de fluxo de caixa, especialmente em dias de pico com 500 requisições por segundo, utilizaremos o **Azure API Management**. Abaixo estão as razões para a escolha dessa solução, incluindo a utilização do sistema de cache:
+
+- **Alta Disponibilidade e Resiliência:** O Azure API Management atua como um gateway de API que pode isolar o serviço de controle de lançamentos do sistema de consolidação diária. Em caso de falha do sistema de consolidação, o Azure API Management pode aplicar políticas de fallback e roteamento para manter o serviço de controle de lançamentos operacional, garantindo a continuidade do serviço.
+
+- **Gerenciamento de Tráfego e Escalabilidade:** Durante picos de até 500 requisições por segundo, o Azure API Management fornece balanceamento de carga e escalabilidade automática. Isso assegura que o serviço possa lidar com altos volumes de tráfego sem degradação do desempenho.
+
+- **Uso de Cache:** Nos dias de pico, utilizaremos o **Azure API Management Cache** para armazenar temporariamente respostas de API. O cache reduz a carga em sistemas backend e melhora a performance, permitindo que o sistema gerencie eficientemente o tráfego intenso e minimize a perda de requisições. O cache pode ser configurado para armazenar as respostas mais frequentes e críticas, reduzindo a necessidade de chamadas repetidas ao backend.
+
+- **Monitoramento e Análise:** O Azure API Management fornece ferramentas integradas de monitoramento e análise que permitem rastrear o desempenho da API e identificar problemas em tempo real. Isso ajuda a garantir que a taxa de perda de requisições permaneça dentro do limite de 5% e permite ajustes rápidos para otimizar o desempenho.
+
+- **Segurança e Controle:** A plataforma oferece recursos avançados de segurança e controle, como autenticação, autorização e proteção contra ataques DDoS, garantindo a integridade e a proteção do sistema mesmo durante picos de carga.
+
+A utilização do **Azure API Management**, com seu sistema de cache, assegura que o sistema de controle de fluxo de caixa mantenha alta disponibilidade, escalabilidade e desempenho eficiente, mesmo durante períodos de alta demanda.
+
 
 ## Padrões de Design
 - Domain Driven Design(DDD)
