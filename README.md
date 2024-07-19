@@ -20,35 +20,52 @@ Desenvolvimento de uma solução para controle de Fluxo de Caixa.
 ## Justificativa das Tecnologias Utilizadas
 
 ### Microsoft Visual Studio Enterprise 2022
-**Motivo**: Esta IDE fornece um conjunto completo de ferramentas de desenvolvimento, depuração e testes que são essenciais para garantir a qualidade e a eficiência do código. Suas funcionalidades avançadas, como o IntelliSense, refatoração de código e integração com ferramentas de CI/CD, ajudam a manter o desenvolvimento ágil e de alta qualidade.
+: Esta IDE fornece um conjunto completo de ferramentas de desenvolvimento, depuração e testes que são essenciais para garantir a qualidade e a eficiência do código. Suas funcionalidades avançadas, como o IntelliSense, refatoração de código e integração com ferramentas de CI/CD, ajudam a manter o desenvolvimento ágil e de alta qualidade.
 
 ### C#
-**Motivo**: C# é uma linguagem robusta e moderna que suporta desenvolvimento orientado a objetos, padrões de projeto e práticas SOLID. É ideal para construir aplicações escaláveis e de alta performance, características essenciais para atender às demandas de picos de requisições e alta disponibilidade.
+ C# é uma linguagem robusta e moderna que suporta desenvolvimento orientado a objetos, padrões de projeto e práticas SOLID. É ideal para construir aplicações escaláveis e de alta performance, características essenciais para atender às demandas de picos de requisições e alta disponibilidade.
 
 ### ASP.NET Web API
-**Motivo**: Permite a construção de serviços RESTful eficientes e escaláveis que podem ser facilmente consumidos por diferentes clientes (web, mobile, etc.). A ASP.NET Web API é conhecida por sua performance e capacidade de lidar com alta carga de requisições, essencial para o serviço de consolidado diário.
+ Permite a construção de serviços RESTful eficientes e escaláveis que podem ser facilmente consumidos por diferentes clientes (web, mobile, etc.). A ASP.NET Web API é conhecida por sua performance e capacidade de lidar com alta carga de requisições, essencial para o serviço de consolidado diário.
 
 ### Swagger
-**Motivo**: Ferramenta para documentação e teste de APIs RESTful. Facilita o desenvolvimento colaborativo e garante que as APIs sejam bem documentadas e fáceis de testar, o que é crucial para a manutenção e evolução do sistema.
+ Ferramenta para documentação e teste de APIs RESTful. Facilita o desenvolvimento colaborativo e garante que as APIs sejam bem documentadas e fáceis de testar, o que é crucial para a manutenção e evolução do sistema.
 
 ### XUnit
-**Motivo**: Framework de testes unitários que suporta a escrita de testes claros e concisos. Promove a adoção de boas práticas de TDD (Test-Driven Development), garantindo que o código esteja bem testado e livre de regressões.
+ Framework de testes unitários que suporta a escrita de testes claros e concisos. Promove a adoção de boas práticas de TDD (Test-Driven Development), garantindo que o código esteja bem testado e livre de regressões.
 
 ### Moq
-**Motivo**: Biblioteca de mocking que simplifica a criação de mocks para testes unitários, permitindo isolar e testar componentes individuais de forma eficaz. Ajuda a garantir que os testes sejam rápidos e confiáveis.
+ Biblioteca de mocking que simplifica a criação de mocks para testes unitários, permitindo isolar e testar componentes individuais de forma eficaz. Ajuda a garantir que os testes sejam rápidos e confiáveis.
 
 ### Dapper
-**Motivo**: Micro ORM (Object-Relational Mapper) que oferece uma maneira simples e eficiente de executar consultas SQL. É conhecido por sua performance superior em comparação com ORMs mais pesados, o que é ideal para operações de banco de dados de alta performance.
+ Micro ORM (Object-Relational Mapper) que oferece uma maneira simples e eficiente de executar consultas SQL. É conhecido por sua performance superior em comparação com ORMs mais pesados, o que é ideal para operações de banco de dados de alta performance.
 
 ### SQL Server / SQL Server Management Studio
-**Motivo**: Banco de dados relacional robusto e amplamente utilizado que oferece recursos avançados de gestão de dados, transações ACID e suporte para alta concorrência. O SQL Server Management Studio facilita a administração, otimização e monitoramento do banco de dados.
+ Banco de dados relacional robusto e amplamente utilizado que oferece recursos avançados de gestão de dados, transações ACID e suporte para alta concorrência. O SQL Server Management Studio facilita a administração, otimização e monitoramento do banco de dados.
 
 ### FluentValidation
-**Motivo**: Biblioteca para validação de modelos em .NET. Facilita a definição de regras de validação claras e reutilizáveis, ajudando a manter a consistência e integridade dos dados.
+ Biblioteca para validação de modelos em .NET. Facilita a definição de regras de validação claras e reutilizáveis, ajudando a manter a consistência e integridade dos dados.
 
 ### RESTful
-**Motivo**: Arquitetura de software que promove a interoperabilidade entre sistemas e a escalabilidade. Utilizando REST, os serviços são projetados para serem stateless, o que é essencial para garantir a alta disponibilidade e resiliência do sistema.
+ Arquitetura de software que promove a interoperabilidade entre sistemas e a escalabilidade. Utilizando REST, os serviços são projetados para serem stateless, o que é essencial para garantir a alta disponibilidade e resiliência do sistema.
 
+### Application Insights
+
+- **Disponibilidade e Resiliência:** Monitora a disponibilidade do sistema e diagnostica falhas rapidamente.
+- **Desempenho em Picos:** Avalia a latência e o tempo de resposta, ajudando a otimizar o sistema para gerenciar cargas elevadas.
+- **Análise de Telemetria:** Fornece insights sobre o comportamento da aplicação para detectar e resolver problemas de desempenho.
+
+### Log Analytics
+
+- **Registro e Análise de Logs:** Coleta e analisa logs para diagnóstico e monitoramento contínuo.
+- **Monitoramento de Performance:** Analisa dados para garantir que a perda de requisições não exceda 5% durante picos.
+- **Alertas e Diagnóstico:** Configura alertas para problemas críticos e facilita a resolução de falhas.
+
+### Azure Monitor
+
+- **Visão Unificada:** Oferece uma visão consolidada da saúde do sistema, integrando dados de métricas, logs e eventos.
+- **Gerenciamento de Recursos:** Monitora e ajusta a escala dos recursos para manter a disponibilidade e o desempenho.
+- **Escalabilidade em Picos:** Ajuda a analisar e gerenciar o desempenho durante picos de carga para garantir a operação eficiente.
 
 ## Padrões de Design
 - Domain Driven Design(DDD)
