@@ -1,0 +1,621 @@
+{
+	"info": {
+		"_postman_id": "6ea6cdac-a13b-43c7-a525-c49ea628436e",
+		"name": "EmpXpo.Accounting",
+		"description": "Collection for CashFlow API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29804479"
+	},
+	"item": [
+		{
+			"name": "CashFlow",
+			"item": [
+				{
+					"name": "Create CashFlow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Store the error message in a variable\r",
+									"var errorMessage = pm.response.json().message;\r",
+									"pm.variables.set(\"errorMessage\", errorMessage);\r",
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has the expected schema\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id').that.is.a('number');\r",
+									"    pm.expect(responseData).to.have.property('sellerId').that.is.a('number');\r",
+									"    pm.expect(responseData).to.have.property('type').that.is.a('number');\r",
+									"    pm.expect(responseData).to.have.property('amount').that.is.a('number');\r",
+									"    pm.expect(responseData).to.have.property('description').that.is.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that the response contains the expected fields\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"\r",
+									"  pm.expect(responseData).to.have.property('id');\r",
+									"  pm.expect(responseData).to.have.property('sellerId');\r",
+									"  pm.expect(responseData).to.have.property('type');\r",
+									"  pm.expect(responseData).to.have.property('amount');\r",
+									"  pm.expect(responseData).to.have.property('description');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sellerId\": 1,\n  \"amount\": 1000,\n  \"description\": \"string\",\n  \"date\": \"2024-01-01\"\n}"
+						},
+						"url": {
+							"raw": "{{cashFlowApi_base_url}}/api/cashFlows",
+							"host": [
+								"{{cashFlowApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"cashFlows"
+							]
+						},
+						"description": "The endpoint allows you to create a new cash flow entry via a POST request to {{cashFlowApi_base_url}}/api/cashFlows. The request should include the seller's ID, amount, description, and date in the payload.\n\n### Request Body\n\n- `sellerId` (integer): The ID of the seller associated with the cash flow.\n    \n- `amount` (integer): The amount of the cash flow entry.\n    \n- `description` (string): A description of the cash flow entry.\n    \n- `date` (string): The date of the cash flow entry.\n    \n\n### Response (JSON Schema)\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"id\": {\n            \"type\": \"integer\"\n        },\n        \"sellerId\": {\n            \"type\": \"integer\"\n        },\n        \"type\": {\n            \"type\": \"integer\"\n        },\n        \"amount\": {\n            \"type\": \"integer\"\n        },\n        \"description\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CashFlowReport",
+			"item": [
+				{
+					"name": "List Available Dates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response body\r",
+									"var dates = pm.response.json();\r",
+									"\r",
+									"// Save the first date from the response to a variable\r",
+									"var firstDate = dates[0];\r",
+									"pm.globals.set(\"firstDate\", firstDate);\r",
+									"// Test the response body structure and values\r",
+									"pm.test(\"Response body structure and values are valid\", function () {\r",
+									"    var responseJSON = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJSON).to.be.an('array').that.is.not.empty;\r",
+									"    pm.expect(responseJSON[0]).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{cashFlowReportApi_base_url}}/api/cashFlowReports/dates",
+							"host": [
+								"{{cashFlowReportApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"cashFlowReports",
+								"dates"
+							]
+						},
+						"description": "### GET /api/cashFlowReports/dates\n\nThis endpoint retrieves a list of dates related to cash flow reports.\n\n#### Request\n\nThis is a simple GET request with no request body parameters.\n\n#### Response\n\nThe response will be a JSON array containing the list of dates related to cash flow reports. The array will be empty if no dates are available.\n\nExample response:\n\n``` json\n[\n  \"2022-01-01\",\n  \"2022-01-15\",\n  \"2022-02-01\"\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Daily Consolidated Report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - debit, credit, dailyBalance, reference, and processingDate\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.debit).to.exist;\r",
+									"    pm.expect(responseData.credit).to.exist;\r",
+									"    pm.expect(responseData.dailyBalance).to.exist;\r",
+									"    pm.expect(responseData.reference).to.exist;\r",
+									"    pm.expect(responseData.processingDate).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Debit and credit are non-negative numbers\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.debit).to.be.at.least(0);\r",
+									"    pm.expect(responseData.credit).to.be.at.least(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Daily balance is a number\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.dailyBalance).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Reference and processing date are non-empty strings\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.reference).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Reference should not be empty\");\r",
+									"  pm.expect(responseData.processingDate).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Processing date should not be empty\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"// Stores the dailyBalance from the response in an environment or global variable\r",
+									"var dailyBalance = pm.response.json().dailyBalance;\r",
+									"pm.environment.set(\"dailyBalance\", dailyBalance);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{cashFlowReportApi_base_url}}/api/cashFlowReports/2024-07-19",
+							"host": [
+								"{{cashFlowReportApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"cashFlowReports",
+								"2024-07-19"
+							]
+						},
+						"description": "The endpoint retrieves the cash flow report for the specified date in the URL.\n\n### Response\n\nThe response will be in JSON format and will have the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"debit\": {\n            \"type\": \"number\"\n        },\n        \"credit\": {\n            \"type\": \"number\"\n        },\n        \"dailyBalance\": {\n            \"type\": \"number\"\n        },\n        \"reference\": {\n            \"type\": \"string\"\n        },\n        \"processingDate\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CashFlowSeller",
+			"item": [
+				{
+					"name": "Create Seller",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, and email\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Name and email fields are non-empty strings\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+									"  pm.expect(responseData.email).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Email should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, and email\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Name and email should be non-empty strings\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+									"  pm.expect(responseData.email).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Email should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n  \"name\": \"Jonh Doe\",\n  \"email\": \"email@email.com.br\"\n}"
+						},
+						"url": {
+							"raw": "{{cashFlowSellerApi_base_url}}/api/sellers",
+							"host": [
+								"{{cashFlowSellerApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"sellers"
+							]
+						},
+						"description": "### Create New Seller\n\nThis endpoint allows you to create a new seller.\n\n**Request Body**\n\n- `name` (string, required): The name of the seller.\n    \n- `email` (string, required): The email of the seller.\n    \n\n**Response**  \nThe response will be a JSON object with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Seller",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body length matches the expected length\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.null;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n  \"name\": \"Manoelito Doe\",\n  \"email\": \"string@Email.com.br\"  \n}"
+						},
+						"url": {
+							"raw": "{{cashFlowSellerApi_base_url}}/api/sellers/1",
+							"host": [
+								"{{cashFlowSellerApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"sellers",
+								"1"
+							]
+						},
+						"description": "### Update Seller Information\n\nThis endpoint is used to update the information of a specific seller.\n\n#### Request Body\n\n- `name` (string, optional): The updated name of the seller.\n    \n- `email` (string, optional): The updated email of the seller.\n    \n\n#### Response\n\n- Status: 200\n    \n- Content-Type: text/xml\n    \n- Body: The response body is not available."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seller by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, and email\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData).to.have.property('id');\r",
+									"  pm.expect(responseData).to.have.property('name');\r",
+									"  pm.expect(responseData).to.have.property('email');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.email).to.match(/^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-z]{2,})$/);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{cashFlowSellerApi_base_url}}/api/sellers/3",
+							"host": [
+								"{{cashFlowSellerApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"sellers",
+								"3"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve the details of a specific seller with the ID 3. The request does not include a request body.\n\n### Request Body\n\nThis request does not include a request body.\n\n### Response Body\n\nUpon a successful execution, the response will include the details of the seller in a JSON format. The response will contain the seller's ID, name, and email.\n\nExample response:\n\n``` json\n{\n    \"id\": 0,\n    \"name\": \"\",\n    \"email\": \"\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Sellers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, and email\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(seller){\r",
+									"        pm.expect(seller).to.have.property('id');\r",
+									"        pm.expect(seller).to.have.property('name');\r",
+									"        pm.expect(seller).to.have.property('email');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"\r",
+									"  responseData.forEach(function(seller) {\r",
+									"    pm.expect(seller.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response is an array with at least one element\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array').that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{cashFlowSellerApi_base_url}}/api/sellers",
+							"host": [
+								"{{cashFlowSellerApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"sellers"
+							]
+						},
+						"description": "### Get Sellers\n\nThis endpoint retrieves a list of sellers.\n\n#### Request Body\n\nThis is a GET request and does not require a request body.\n\n#### Response\n\n- Status: 200\n    \n- Content-Type: application/json\n    \n\nThe response will include an array of seller objects, each containing the following fields:\n\n- `id` (number): The unique identifier for the seller.\n    \n- `name` (string): The name of the seller.\n    \n- `email` (string): The email address of the seller.\n    \n\nExample response body:\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"name\": \"\",\n        \"email\": \"\"\n    }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Seller by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(404);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - type, title, status, and traceId\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.type).to.exist;\r",
+									"    pm.expect(responseData.title).to.exist;\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.traceId).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response Content-Type is 'application/problem+json'\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include('application/problem+json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{cashFlowSellerApi_base_url}}/api/sellers/9",
+							"host": [
+								"{{cashFlowSellerApi_base_url}}"
+							],
+							"path": [
+								"api",
+								"sellers",
+								"9"
+							]
+						},
+						"description": "The API endpoint sends an HTTP DELETE request to {{cashFlowSellerApi_base_url}}/api/sellers/9 to delete a specific seller.\n\nThe response returned a status code of 200 and a Content-Type of text/xml. However, the response body was null."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "cashFlowApi_base_url",
+			"value": "https://localhost:7162"
+		},
+		{
+			"key": "cashFlowReportApi_base_url",
+			"value": "https://localhost:7255",
+			"type": "string"
+		},
+		{
+			"key": "cashFlowSellerApi_base_url",
+			"value": "https://localhost:7163",
+			"type": "string"
+		}
+	]
+}
