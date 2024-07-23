@@ -7,7 +7,7 @@ namespace EmpXpo.Accounting.Application.Services
     public class NotifierService : INotifierService
     {
         private readonly List<Notifier> _notifications;
-        
+
         public NotifierService()
         {
             _notifications = new List<Notifier>();

@@ -1,7 +1,7 @@
-﻿namespace EmpXpo.Accounting.Domain
+﻿namespace EmpXpo.Accounting.CashFlowApi.Models
 {
-    public class ReportModel: EntityBase
-    {        
+    public class ReportModel
+    {
         /// <summary>
         /// Total Debit
         /// </summary>
@@ -30,6 +30,6 @@
         /// Date and time the report was generated
         /// </summary>
         /// <example>70</example>
-        public DateTime ProcessingDate { get; set; }        
+        public DateTime ProcessingDate { get; set; }
     }
 }

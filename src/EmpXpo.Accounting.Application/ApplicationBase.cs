@@ -1,9 +1,7 @@
-﻿using EmpXpo.Accounting.Application.Services.Validators;
-using EmpXpo.Accounting.Domain;
+﻿using EmpXpo.Accounting.Domain;
 using EmpXpo.Accounting.Domain.Abstractions.Application.Services;
 using EmpXpo.Accounting.Domain.Abstractions.Repositories;
 using EmpXpo.Accounting.Domain.Enumerators;
-using System.Reflection;
 
 namespace EmpXpo.Accounting.Application
 {
@@ -12,7 +10,9 @@ namespace EmpXpo.Accounting.Application
         private readonly IRepository<TEntity> _repository;
         private readonly IValidatorService<TEntity> _validatorService;
 
-        public ApplicationBase(IRepository<TEntity> repository, IValidatorService<TEntity> validatorService)
+        public ApplicationBase(IRepository<TEntity> repository,
+                               IValidatorService<TEntity> validatorService
+                              )
         {
             _repository = repository;
             _validatorService = validatorService;
@@ -20,7 +20,7 @@ namespace EmpXpo.Accounting.Application
 
         public virtual async Task<TEntity> Create(TEntity model)
         {
-            if (!_validatorService.IsValid(ValidatorType.Create, model))
+            if (!await _validatorService.IsValidAsync(ValidatorType.Create, model))
                 return Activator.CreateInstance<TEntity>();
 
             model.Id = Convert.ToInt32(await _repository.Insert(model));
@@ -30,7 +30,9 @@ namespace EmpXpo.Accounting.Application
 
         public virtual async Task<bool> Update(int id, TEntity model)
         {
-            if (!_validatorService.IsValid(ValidatorType.Update, model, id))
+            if (!await _validatorService.IsValidAsync(ValidatorType.Update, model) &&
+                !await _validatorService.IsValidValue(nameof(id), id, (x) => x is int intValue && intValue > 0)
+               )
                 return false;
 
             var entity = await _repository.GetById(id);
@@ -45,7 +47,7 @@ namespace EmpXpo.Accounting.Application
 
         public virtual async Task<bool> Delete(int id)
         {
-            if (!_validatorService.IsValid(ValidatorType.Delete, id:id))
+            if (!await _validatorService.IsValidValue(nameof(id), id, (x) => x is int intValue && intValue > 0))
                 return false;
 
             var entity = await _repository.GetById(id);
@@ -57,7 +59,7 @@ namespace EmpXpo.Accounting.Application
 
         public virtual async Task<TEntity> Get(int id)
         {
-            if (!_validatorService.IsValid(ValidatorType.Get, id: id))
+            if (!await _validatorService.IsValidValue(nameof(id), id, (x) => x is int intValue && intValue > 0))
                 return Activator.CreateInstance<TEntity>();
 
             return await _repository.GetById(id);

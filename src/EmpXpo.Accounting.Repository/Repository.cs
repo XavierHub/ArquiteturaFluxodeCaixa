@@ -14,10 +14,9 @@ namespace EmpXpo.Accounting.Repository
 
         public Repository(IOptions<RepositoryOptions> options)
         {
-            _options = options.Value;
-
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
             if (string.IsNullOrWhiteSpace(_options.ConnectionString))
-                throw new Exception("Connection string is empty");
+                throw new ArgumentException("Connection string is empty", nameof(_options.ConnectionString));
         }
 
         public async Task<IEnumerable<T>> GetAll()
@@ -35,6 +34,18 @@ namespace EmpXpo.Accounting.Repository
 
             return await connection.GetAsync<T>(parm) ?? Activator.CreateInstance<T>();
         }
+
+        public async Task<T> Get(string spName, object? parm = null)
+        {
+            using var connection = GetConnection();
+            await connection.OpenAsync();
+            var result = await connection.QueryAsync<T>(spName,
+                                                        param: parm,
+                                                        commandType: CommandType.StoredProcedure);
+
+            return result.FirstOrDefault() ?? Activator.CreateInstance<T>();
+        }
+
         public async Task<bool> Delete(T entity)
         {
             using var connection = GetConnection();

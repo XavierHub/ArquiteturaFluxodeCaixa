@@ -6,13 +6,19 @@ using FluentValidation;
 
 namespace EmpXpo.Accounting.Application.Services.Validators
 {
-    public class ReportValidatorService: ValidatorServiceBase<Report>, IValidatorService<Report>
+    public class ReportValidatorService : ValidatorServiceBase<Report>, IValidatorService<Report>
     {
-        public ReportValidatorService(INotifierService notifierService) : base(notifierService){}
+        public ReportValidatorService(INotifierService notifierService) : base(notifierService) { }
 
-        public override bool IsValid(ValidatorType validatorType, Report? model=null, int? id=null)
+        public override async Task<bool> IsValidAsync(ValidatorType validatorType, Report? model)
         {
-            return base.IsValid(validatorType, model, id);
+            if (validatorType == ValidatorType.Create)
+            {
+                _validator.RuleFor(x => x.SellerId).GreaterThan(0);
+                _validator.RuleFor(x => x.Credit).GreaterThan(0);
+            }
+
+            return await base.IsValidAsync(validatorType, model);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EmpXpo.Accounting.CashFlowApi;
 using EmpXpo.Accounting.Domain;
 
 namespace EmpXpo.Accounting.CashFlowApi.Extensions

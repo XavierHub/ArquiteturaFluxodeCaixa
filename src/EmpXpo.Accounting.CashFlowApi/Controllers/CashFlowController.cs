@@ -24,10 +24,10 @@ namespace EmpXpo.Accounting.CashFlowApi.Controllers
         /// Create a specific CashFlow
         /// </summary>        
         /// <response code="201">CashFlow created</response>
-        /// <response code="400">CashFlow has missing/invalid values</response>
+        /// <response code="404">CashFlow has missing/invalid values</response>
         /// <response code="500">Can't create your cashFlow right now</response>
         [ProducesResponseType(typeof(CashFlowModel), 201)]
-        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(500)]
         [HttpPost]
         public async Task<IActionResult> Create(CashFlowModel model)
@@ -37,7 +37,10 @@ namespace EmpXpo.Accounting.CashFlowApi.Controllers
 
             var result = await _cashFlowApplication.Create(_mapper.Map<CashFlow>(model));
 
-            var uri = Url.Action("Get", new { id = model.Id });
+            if (result?.Id == 0)
+                return BadRequest();
+
+            var uri = Url.Action("Get", new { id = result.Id });
 
             return Created(uri, _mapper.Map<CashFlowModel>(result));
         }

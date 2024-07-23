@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpXpo.Accounting.Ioc", "Em
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.1 Ioc", "05.1 Ioc", "{877C171C-2D27-4807-8ADD-041F4FB02CD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpXpo.Accounting.SellerApi", "EmpXpo.Accounting.SellerApi\EmpXpo.Accounting.SellerApi.csproj", "{8588DB7C-1FAB-425A-86AF-6758C4965172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpXpo.Accounting.CashFlowSellerApi", "EmpXpo.Accounting.SellerApi\EmpXpo.Accounting.CashFlowSellerApi.csproj", "{8588DB7C-1FAB-425A-86AF-6758C4965172}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashFlowTests", "CashFlowTests\CashFlowTests.csproj", "{D5024FC7-FFD0-4886-BF07-104BD24C783A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{8588DB7C-1FAB-425A-86AF-6758C4965172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8588DB7C-1FAB-425A-86AF-6758C4965172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8588DB7C-1FAB-425A-86AF-6758C4965172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5024FC7-FFD0-4886-BF07-104BD24C783A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5024FC7-FFD0-4886-BF07-104BD24C783A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5024FC7-FFD0-4886-BF07-104BD24C783A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5024FC7-FFD0-4886-BF07-104BD24C783A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{29D6E835-C8FF-408C-8DAC-F7E0CAE4F168} = {877C171C-2D27-4807-8ADD-041F4FB02CD1}
 		{877C171C-2D27-4807-8ADD-041F4FB02CD1} = {A2AE459A-C253-4E7E-BF40-763E60FF9DB0}
 		{8588DB7C-1FAB-425A-86AF-6758C4965172} = {EDED6D84-8C12-427B-9D61-494117A0E063}
+		{D5024FC7-FFD0-4886-BF07-104BD24C783A} = {4A6792C5-6F33-4214-9375-F0312F287811}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B43D6FC-D783-4DC4-81FF-2BF556513773}

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EmpXpo.Accounting.Domain;
 
-namespace EmpXpo.Accounting.SellerApi.Extensions
+namespace EmpXpo.Accounting.CashFlowSellerApi.Extensions
 {
     public static class WebApiExtension
     {

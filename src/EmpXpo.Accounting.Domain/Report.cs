@@ -1,12 +1,11 @@
 ﻿namespace EmpXpo.Accounting.Domain
 {
-    public class Report: EntityBase
+    public class Report : EntityBase
     {
         public Report()
         {
             Seller = new Seller();
         }
-        
         public int SellerId { get; set; }
         public double Debit { get; set; }
         public double Credit { get; set; }

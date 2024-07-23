@@ -11,7 +11,7 @@ namespace EmpXpo.Accounting.Application
         private readonly IRepository<Seller> _sellerRepository;
         private readonly IValidatorService<Seller> _sellerValidatorService;
 
-        public SellerApplication(IRepository<Seller> sellerFlowRepository, IValidatorService<Seller> sellerValidatorService) 
+        public SellerApplication(IRepository<Seller> sellerFlowRepository, IValidatorService<Seller> sellerValidatorService)
             : base(sellerFlowRepository, sellerValidatorService)
         {
             _sellerRepository = sellerFlowRepository;
@@ -26,11 +26,13 @@ namespace EmpXpo.Accounting.Application
 
         public override async Task<bool> Update(int id, Seller model)
         {
-            if (!_sellerValidatorService.IsValid(ValidatorType.Update, model, id))
+            if (!await _sellerValidatorService.IsValidAsync(ValidatorType.Update, model) &&
+                !await _sellerValidatorService.IsValidValue(nameof(id), id, (x) => x is int intValue && intValue > 0)
+                )
                 return false;
 
             var entity = await _sellerRepository.GetById(id);
-            if(entity.Id == 0)
+            if (entity.Id == 0)
                 return false;
 
             entity.Name = model.Name;

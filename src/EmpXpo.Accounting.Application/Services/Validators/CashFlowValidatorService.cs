@@ -6,11 +6,11 @@ using FluentValidation;
 
 namespace EmpXpo.Accounting.Application.Services.Validators
 {
-    public class CashFlowValidatorService: ValidatorServiceBase<CashFlow>, IValidatorService<CashFlow>
+    public class CashFlowValidatorService : ValidatorServiceBase<CashFlow>, IValidatorService<CashFlow>
     {
-        public CashFlowValidatorService(INotifierService notifierService) : base(notifierService){}
+        public CashFlowValidatorService(INotifierService notifierService) : base(notifierService) { }
 
-        public override bool IsValid(ValidatorType validatorType, CashFlow? model=null, int? id=null)
+        public override async Task<bool> IsValidAsync(ValidatorType validatorType, CashFlow? model)
         {
             if (validatorType == ValidatorType.Create)
             {
@@ -19,7 +19,7 @@ namespace EmpXpo.Accounting.Application.Services.Validators
                 _validator.RuleFor(x => x.Description).NotNull().NotEmpty().MaximumLength(100);
                 _validator.RuleFor(x => x.Amount).GreaterThan(0);
             }
-            return base.IsValid(validatorType, model, id);
-        }        
+            return await base.IsValidAsync(validatorType, model);
+        }
     }
 }

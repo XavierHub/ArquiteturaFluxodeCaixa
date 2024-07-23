@@ -2,7 +2,7 @@
 
 namespace EmpXpo.Accounting.Domain
 {
-    public class EntityBase: IEntity
+    public class EntityBase : IEntity
     {
         public int Id { get; set; }
     }

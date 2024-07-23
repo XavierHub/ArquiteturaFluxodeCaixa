@@ -1,6 +1,4 @@
-﻿using EmpXpo.Accounting.Domain.Enumerators;
-
-namespace EmpXpo.Accounting.CashFlowApi
+﻿namespace EmpXpo.Accounting.CashFlowApi
 {
     public class CashFlowModel
     {
@@ -34,6 +32,6 @@ namespace EmpXpo.Accounting.CashFlowApi
         /// Cash flow Description
         /// </summary>
         /// <example>Purchase of xpo product</example>
-        public string Description { get; set; } = string.Empty;        
+        public string Description { get; set; } = string.Empty;
     }
 }

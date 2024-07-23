@@ -19,8 +19,6 @@ namespace EmpXpo.Accounting.Application
             services.AddScoped(typeof(IValidatorService<CashFlow>), typeof(CashFlowValidatorService));
             services.AddScoped(typeof(IValidatorService<Seller>), typeof(SellerValidatorService));
             services.AddScoped(typeof(IValidatorService<Report>), typeof(ReportValidatorService));
-            services.AddScoped(typeof(IGenericValidatorService<>), typeof(GenericValidatorService<>));
-            
 
             return services;
         }

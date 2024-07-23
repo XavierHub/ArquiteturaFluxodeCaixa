@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace EmpXpo.Accounting.SellerApi.Filters
+namespace EmpXpo.Accounting.CashFlowSellerApi.Filters
 {
     public class NotificationFilter : IAsyncResultFilter
     {
@@ -21,8 +21,8 @@ namespace EmpXpo.Accounting.SellerApi.Filters
             {
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.HttpContext.Response.ContentType = "application/json";
-                
-                var notifications = JsonConvert.SerializeObject(new {message = "Notification", details = _notifierService.Notifications()});
+
+                var notifications = JsonConvert.SerializeObject(new { message = "Notification", details = _notifierService.Notifications() });
                 await context.HttpContext.Response.WriteAsync(notifications);
 
                 return;

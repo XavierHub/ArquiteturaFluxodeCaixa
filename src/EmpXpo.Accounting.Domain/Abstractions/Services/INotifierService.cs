@@ -5,7 +5,7 @@ namespace EmpXpo.Accounting.Domain.Abstractions.Services
     public interface INotifierService
     {
         IReadOnlyCollection<Notifier> Notifications();
-        bool HasNotifications();        
+        bool HasNotifications();
         void Add(string key, string message);
         void Add(ValidationResult validationResult);
     }

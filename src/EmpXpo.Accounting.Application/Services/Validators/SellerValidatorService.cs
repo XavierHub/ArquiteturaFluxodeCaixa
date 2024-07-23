@@ -6,17 +6,17 @@ using FluentValidation;
 
 namespace EmpXpo.Accounting.Application.Services.Validators
 {
-    public class SellerValidatorService: ValidatorServiceBase<Seller>, IValidatorService<Seller>
+    public class SellerValidatorService : ValidatorServiceBase<Seller>, IValidatorService<Seller>
     {
-        public SellerValidatorService(INotifierService notifierService):base(notifierService)
+        public SellerValidatorService(INotifierService notifierService) : base(notifierService)
         {
             _validator.RuleFor(x => x.Name).NotNull().NotEmpty().MaximumLength(80);
             _validator.RuleFor(x => x.Email).NotNull().NotEmpty().MaximumLength(50).EmailAddress();
         }
 
-        public override bool IsValid(ValidatorType validatorType, Seller? model = null, int? id = null)
+        public override async Task<bool> IsValidAsync(ValidatorType validatorType, Seller? model)
         {
-            return base.IsValid(validatorType, model, id);
-        }         
+            return await base.IsValidAsync(validatorType, model);
+        }
     }
 }

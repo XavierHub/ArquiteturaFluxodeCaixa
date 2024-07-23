@@ -1,47 +1,47 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>EmpXpo.Accounting.SellerApi</name>
+        <name>EmpXpo.Accounting.CashFlowSellerApi</name>
     </assembly>
     <members>
-        <member name="M:EmpXpo.Accounting.SellerApi.Controllers.SellerController.Create(EmpXpo.Accounting.Domain.SellerModel)">
+        <member name="M:EmpXpo.Accounting.CashFlowSellerApi.Controllers.CashFlowSellerController.Create(EmpXpo.Accounting.Domain.SellerModel)">
             <summary>
             Create a specific seller
             </summary>        
             <response code="201">Seller created</response>
-            <response code="400">Seller has missing/invalid values</response>
+            <response code="404">Seller has missing/invalid values</response>
             <response code="500">Can't create your seller right now</response>        
         </member>
-        <member name="M:EmpXpo.Accounting.SellerApi.Controllers.SellerController.Update(System.Int32,EmpXpo.Accounting.Domain.SellerModel)">
+        <member name="M:EmpXpo.Accounting.CashFlowSellerApi.Controllers.CashFlowSellerController.Update(System.Int32,EmpXpo.Accounting.Domain.SellerModel)">
             <summary>
             Update a specific seller by Id
             </summary>        
             <response code="200">Seller Updated</response>
-            <response code="400">Seller has missing/invalid values</response>
+            <response code="404">Seller has missing/invalid values</response>
             <response code="500">Can't update your seller right now</response>        
         </member>
-        <member name="M:EmpXpo.Accounting.SellerApi.Controllers.SellerController.Get(System.Int32)">
+        <member name="M:EmpXpo.Accounting.CashFlowSellerApi.Controllers.CashFlowSellerController.Get(System.Int32)">
             <summary>
             Get a specific seller by Id
             </summary>        
             <response code="200">Seller found</response>
-            <response code="400">Seller has missing/invalid values</response>
+            <response code="404">Seller has missing/invalid values</response>
             <response code="500">Can't get your seller right now</response>        
         </member>
-        <member name="M:EmpXpo.Accounting.SellerApi.Controllers.SellerController.GetAll">
+        <member name="M:EmpXpo.Accounting.CashFlowSellerApi.Controllers.CashFlowSellerController.GetAll">
             <summary>
             Get all sellers
             </summary>        
             <response code="200">Sellers found</response>        
-            <response code="400">Seller has missing/invalid values</response>
+            <response code="404">Seller has missing/invalid values</response>
             <response code="500">Unable to reach sellers at this time</response>        
         </member>
-        <member name="M:EmpXpo.Accounting.SellerApi.Controllers.SellerController.Delete(System.Int32)">
+        <member name="M:EmpXpo.Accounting.CashFlowSellerApi.Controllers.CashFlowSellerController.Delete(System.Int32)">
             <summary>
             Delete a specific seller by Id
             </summary>        
             <response code="200">Sellers deleted</response>
-            <response code="400">Seller has missing/invalid values</response>
+            <response code="404">Seller has missing/invalid values</response>
             <response code="500">Can't delete your seller right now</response>        
         </member>
         <member name="P:EmpXpo.Accounting.Domain.SellerModel.Id">

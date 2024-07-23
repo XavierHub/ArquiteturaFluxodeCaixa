@@ -2,6 +2,6 @@
 {
     public interface ICashFlowApplication
     {
-        public Task<CashFlow> Create(CashFlow model);        
+        public Task<CashFlow> Create(CashFlow model);
     }
 }

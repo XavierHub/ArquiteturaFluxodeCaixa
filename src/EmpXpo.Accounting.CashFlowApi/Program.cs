@@ -1,9 +1,7 @@
-using EmpXpo.Accounting.Application;
 using EmpXpo.Accounting.CashFlowApi.Extensions;
 using EmpXpo.Accounting.CashFlowApi.Filters;
 using EmpXpo.Accounting.CashFlowApi.Middlewares;
 using EmpXpo.Accounting.Ioc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.OpenApi.Models;
 
 namespace EmpXpo.Accounting.CashFlowApi
@@ -20,7 +18,8 @@ namespace EmpXpo.Accounting.CashFlowApi
                    .AddCommandLine(args);
 
             builder.Services.AddEndpointsApiExplorer()
-                            .AddSwaggerGen(options => {
+                            .AddSwaggerGen(options =>
+                            {
                                 options.SwaggerDoc("v1", new OpenApiInfo
                                 {
                                     Title = "Swagger Documentação Web API",
@@ -53,9 +52,9 @@ namespace EmpXpo.Accounting.CashFlowApi
 
             app.UseMiddleware<CashFlowExceptionHandlingMiddleware>()
                .UseHttpsRedirection()
-               .UseAuthorization();            
-            
-            
+               .UseAuthorization();
+
+
             app.MapControllers();
 
             app.Run();

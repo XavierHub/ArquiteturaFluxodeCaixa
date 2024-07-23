@@ -1,12 +1,11 @@
 
-using EmpXpo.Accounting.SellerApi.Extensions;
-using EmpXpo.Accounting.SellerApi.Filters;
+using EmpXpo.Accounting.CashFlowSellerApi.Extensions;
+using EmpXpo.Accounting.CashFlowSellerApi.Filters;
+using EmpXpo.Accounting.CashFlowSellerApi.Middlewares;
 using EmpXpo.Accounting.Ioc;
-using EmpXpo.Accounting.SellerApi.Middlewares;
 using Microsoft.OpenApi.Models;
-using System.ComponentModel;
 
-namespace EmpXpo.Accounting.SellerApi
+namespace EmpXpo.Accounting.CashFlowSellerApi
 {
     public class Program
     {
@@ -20,7 +19,8 @@ namespace EmpXpo.Accounting.SellerApi
                    .AddCommandLine(args);
 
             builder.Services.AddEndpointsApiExplorer()
-                            .AddSwaggerGen(options => {
+                            .AddSwaggerGen(options =>
+                            {
                                 options.SwaggerDoc("v1", new OpenApiInfo
                                 {
                                     Title = "Swagger Documentação Web API",

@@ -1,4 +1,3 @@
-using EmpXpo.Accounting.Application;
 using EmpXpo.Accounting.CashFlowApi.Extensions;
 using EmpXpo.Accounting.CashFlowApi.Middlewares;
 using EmpXpo.Accounting.Ioc;
@@ -18,7 +17,8 @@ namespace EmpXpo.Accounting.CashFlowReportApi
                    .AddCommandLine(args);
 
             builder.Services.AddEndpointsApiExplorer()
-                            .AddSwaggerGen(options => {
+                            .AddSwaggerGen(options =>
+                            {
                                 options.SwaggerDoc("v1", new OpenApiInfo
                                 {
                                     Title = "Swagger Documentação Web API",
@@ -33,7 +33,7 @@ namespace EmpXpo.Accounting.CashFlowReportApi
                                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "EmpXpo.Accounting.CashFlowReportApi.xml"));
                             })
                             .AddWebApiCashFlowReport()
-                            .AddContainerIoc(builder.Configuration)                           
+                            .AddContainerIoc(builder.Configuration)
                             .AddControllers()
                             .AddJsonOptions(options =>
                                              options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull

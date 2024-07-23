@@ -19,5 +19,5 @@
         /// </summary>
         /// <example>jonh_doe@email.com</example>
         public string Email { get; set; } = string.Empty;
-    }    
+    }
 }

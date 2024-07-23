@@ -9,7 +9,7 @@
             Lists available dates for the report
             </summary>        
             <response code="200">Dates found</response>
-            <response code="400">Dates has missing/invalid values</response>
+            <response code="404">Dates has missing/invalid values</response>
             <response code="500">Can't create your seller right now</response>        
         </member>
         <member name="M:EmpXpo.Accounting.CashFlowApi.Controllers.CashFlowReportController.Get(System.DateTime)">
@@ -17,40 +17,34 @@
             Generates the daily consolidated report
             </summary>        
             <response code="200">Report generated successfully</response>
-            <response code="400">Report has missing/invalid values</response>
+            <response code="404">Report has missing/invalid values</response>
             <response code="500">Can't Generates the daily consolidated report right now</response>        
         </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.SellerId">
-            <summary>
-            Seller Id
-            </summary>
-            <example>1</example>
-        </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.Debit">
+        <member name="P:EmpXpo.Accounting.CashFlowApi.Models.ReportModel.Debit">
             <summary>
             Total Debit
             </summary>
             <example>100</example>
         </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.Credit">
+        <member name="P:EmpXpo.Accounting.CashFlowApi.Models.ReportModel.Credit">
             <summary>
             Total Credit
             </summary>
             <example>-30</example>
         </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.DailyBalance">
+        <member name="P:EmpXpo.Accounting.CashFlowApi.Models.ReportModel.DailyBalance">
             <summary>
             Daily Balance
             </summary>
             <example>70</example>
         </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.Reference">
+        <member name="P:EmpXpo.Accounting.CashFlowApi.Models.ReportModel.Reference">
             <summary>
             Date the report was generated
             </summary>
             <example>70</example>
         </member>
-        <member name="P:EmpXpo.Accounting.Domain.ReportModel.ProcessingDate">
+        <member name="P:EmpXpo.Accounting.CashFlowApi.Models.ReportModel.ProcessingDate">
             <summary>
             Date and time the report was generated
             </summary>

@@ -1,161 +1,190 @@
 using AutoMapper;
 using EmpXpo.Accounting.CashFlowApi.Controllers;
-using EmpXpo.Accounting.CashFlowApi.Middlewares;
+using EmpXpo.Accounting.CashFlowApi.Models;
 using EmpXpo.Accounting.Domain;
 using EmpXpo.Accounting.Domain.Abstractions.Application;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Moq;
-using System.Net;
 
-namespace CashFlowReportApiTests.Controllers
+
+namespace EmpXpo.Accounting.CashFlowApi.Tests
 {
-    public class CashFlowReportControllerTest
+    public class CashFlowReportControllerTests
     {
+        private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<IReportApplication> _mockReportApplication;
+        private readonly CashFlowReportController _controller;
 
-        private readonly CashFlowReportController _cashFlowReportController;
-        private readonly Mock<IMapper> _mapper;
-        private readonly Mock<IReportApplication> _cashFlowReportApplication;
-        private readonly Mock<HttpContext> _httpContextMock;
-        private readonly Mock<HttpResponse> _httpResponseMock;
-        private readonly Mock<ILogger<CashFlowReportExceptionHandlingMiddleware>> _logger;
-        Func<Task>? _callbackMethod = null;
-
-        public CashFlowReportControllerTest()
+        public CashFlowReportControllerTests()
         {
-            _mapper = new Mock<IMapper>();
-            _cashFlowReportApplication = new Mock<IReportApplication>();
-
-            _cashFlowReportController = new CashFlowReportController(_mapper.Object, _cashFlowReportApplication.Object);
-
-            _cashFlowReportApplication.Setup(x => x.ListDates())
-                                      .Returns(Task.FromResult<IEnumerable<DateTime>>(new List<DateTime> { DateTime.Now }));
-
-            _cashFlowReportApplication.Setup(x => x.Report(It.IsAny<DateTime>()))
-                                      .Returns(Task.FromResult<IEnumerable<Report>>(new List<Report> {
-                                          new Report{ Credit = 1000, Debit = 300, DailyBalance = 700 }
-                                      }));
-
-
-
-            _httpContextMock = new Mock<HttpContext>();
-            _httpResponseMock = new Mock<HttpResponse>();
-            _logger = new Mock<ILogger<CashFlowReportExceptionHandlingMiddleware>>();
-
-            _httpResponseMock.Setup(x => x.OnStarting(It.IsAny<Func<Task>>()))
-                             .Callback<Func<Task>>(m => _callbackMethod = m);
-
-            _httpContextMock.SetupGet(x => x.Response)
-                            .Returns(_httpResponseMock.Object);
-
-            _httpContextMock.SetupGet(x => x.Response.Headers)
-                            .Returns(new HeaderDictionary() {
-                                                                new KeyValuePair<string, StringValues>("statusCode", new StringValues("200"))
-                                                            }
-                                    );
+            _mockMapper = new Mock<IMapper>();
+            _mockReportApplication = new Mock<IReportApplication>();
+            _controller = new CashFlowReportController(_mockMapper.Object, _mockReportApplication.Object);
         }
 
         [Fact]
-        public async Task WhenRunGet_ShouldReturnListDates()
+        public async Task Get_ReturnsOkResult_WithDates()
         {
-            var payload = await _cashFlowReportController.Get();
-            var result = Assert.IsType<OkObjectResult>(payload);
-            var value = Assert.IsAssignableFrom<IEnumerable<DateTime>>(result.Value);
+            // Arrange
+            var dates = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(-1) };
+            _mockReportApplication.Setup(x => x.ListDates()).ReturnsAsync(dates);
 
-            Assert.True(result.StatusCode == (int)HttpStatusCode.OK);
-            Assert.NotNull(value);
-            Assert.True(value.Count() > 0);
+            // Act
+            var result = await _controller.Get();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(dates, okResult.Value);
+            _mockReportApplication.Verify(x => x.ListDates(), Times.Once);
         }
 
         [Fact]
-        public async Task WhenRunGetWithoutDatabaseDate_ShouldReturnEmptyListDates()
+        public async Task Get_ReturnsNotFound_WhenNoDates()
         {
-            _cashFlowReportApplication.Setup(x => x.ListDates())
-                                      .Returns(Task.FromResult<IEnumerable<DateTime>>(new List<DateTime> { }));
+            // Arrange
+            var dates = new List<DateTime>();
+            _mockReportApplication.Setup(x => x.ListDates()).ReturnsAsync(dates);
 
-            var payload = await _cashFlowReportController.Get();
-            var result = Assert.IsType<OkObjectResult>(payload);
-            var value = Assert.IsAssignableFrom<IEnumerable<DateTime>>(result.Value);
+            // Act
+            var result = await _controller.Get();
 
-            Assert.True(result.StatusCode == (int)HttpStatusCode.OK);
-            Assert.NotNull(value);
-            Assert.True(value.Count() == 0);
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+            _mockReportApplication.Verify(x => x.ListDates(), Times.Once);
         }
 
         [Fact]
-        public async Task WhenRunGetWithDate_ShouldReturnReport()
+        public async Task Get_ReturnsBadRequest_WhenModelStateIsInvalid()
         {
-            var viewModel = DateTime.Now;
-            var payload = await _cashFlowReportController.Get(viewModel);
-            var result = Assert.IsType<OkObjectResult>(payload);
-            var value = Assert.IsAssignableFrom<IEnumerable<Report>>(result.Value);
+            // Arrange
+            _controller.ModelState.AddModelError("error", "some error");
 
-            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
-            Assert.NotNull(value);
-            Assert.True(value.Count()>0);
+            // Act
+            var result = await _controller.Get();
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]
-        public async Task WhenRunGetWithoutDatabaseDate_ShouldReturnReportWithZeroValues()
+        public async Task GetByDate_ReturnsOkResult_WithReport()
         {
-            _cashFlowReportApplication.Setup(x => x.Report(It.IsAny<DateTime>()))
-                                      .Returns(Task.FromResult<IEnumerable<Report>>(new List<Report> {
-                                          new Report{ Credit = 0, Debit = 0, DailyBalance = 0 }
-                                      }));
+            // Arrange
+            var date = DateTime.Now;
+            var report = new Report { ProcessingDate = date };
+            var reportModel = new ReportModel { ProcessingDate = date };
+            _mockReportApplication.Setup(x => x.Report(date)).ReturnsAsync(report);
+            _mockMapper.Setup(m => m.Map<ReportModel>(It.IsAny<Report>())).Returns(reportModel);
 
+            // Act
+            var result = await _controller.Get(date);
 
-            var viewModel = DateTime.Now;
-            var payload = await _cashFlowReportController.Get(viewModel);
-            var result = Assert.IsType<OkObjectResult>(payload);
-            var values = Assert.IsAssignableFrom<IEnumerable<Report>>(result.Value);
-
-            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
-            Assert.NotNull(values);
-            Assert.All(values, x =>
-            {
-                Assert.Equal(0, x.Credit);
-                Assert.Equal(0, x.Debit);
-                Assert.Equal(0, x.DailyBalance);
-            });
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(reportModel, okResult.Value);
+            _mockReportApplication.Verify(x => x.Report(date), Times.Once);
         }
 
         [Fact]
-        public async Task WhenRunCreateWithInvalidDate_ShouldReturnBadRequest()
+        public async Task GetByDate_ReturnsNotFound_WhenReportNotFound()
         {
-            var viewModel = DateTime.MinValue;
-            var payload = await _cashFlowReportController.Get(viewModel);
-            var result = Assert.IsType<BadRequestResult>(payload);
+            // Arrange
+            var date = DateTime.Now;
+            var report = new Report { ProcessingDate = DateTime.MinValue };
+            _mockReportApplication.Setup(x => x.Report(date)).ReturnsAsync(report);
 
-            Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
+            // Act
+            var result = await _controller.Get(date);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+            _mockReportApplication.Verify(x => x.Report(date), Times.Once);
         }
 
         [Fact]
-        public async Task WhenCallApi_ShouldMiddlewareManagementTheUnhandledExceptions()
+        public async Task GetByDate_ReturnsBadRequest_WhenModelStateIsInvalid()
         {
-            var isNextDelegateCalled = false;
-            var requestDelegate = new RequestDelegate(async (innerContext) =>
-            {
-                isNextDelegateCalled = true;
+            // Arrange
+            _controller.ModelState.AddModelError("error", "some error");
+            var date = DateTime.Now;
 
-                if (_callbackMethod != null)
-                {
-                    await _callbackMethod.Invoke();
-                }
-                else
-                {
-                    await Task.CompletedTask;
-                }
-            });
+            // Act
+            var result = await _controller.Get(date);
 
-            var middelware = new CashFlowReportExceptionHandlingMiddleware(requestDelegate, _logger.Object);
-            await middelware.InvokeAsync(_httpContextMock.Object);
-
-            Assert.True(isNextDelegateCalled);
-            Assert.True((_httpContextMock.Object.Response.Headers.TryGetValue("statusCode", out var value)));
-            Assert.Equal((int)HttpStatusCode.OK, int.Parse(value.FirstOrDefault() ?? ""));
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
+        public async Task GetByDate_ReturnsBadRequest_WhenDateIsInvalid()
+        {
+            // Arrange
+            var date = DateTime.MinValue;
+
+            // Act
+            var result = await _controller.Get(date);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task Get_ReturnsInternalServerError_WhenExceptionIsThrown()
+        {
+            // Arrange
+            _mockReportApplication.Setup(x => x.ListDates()).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            await Assert.ThrowsAsync<Exception>(async () => await _controller.Get());
+
+            // Assert
+            _mockReportApplication.Verify(x => x.ListDates(), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetByDate_ReturnsInternalServerError_WhenExceptionIsThrown()
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _mockReportApplication.Setup(x => x.Report(date)).ThrowsAsync(new Exception("Test exception"));
+
+            // Assert
+            await Assert.ThrowsAsync<Exception>(async () => await _controller.Get(date));
+
+            // Assert
+            _mockReportApplication.Verify(x => x.Report(It.IsAny<DateTime>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetByDate_ReturnsBadRequest_WhenDateFormatIsInvalid()
+        {
+            // Arrange
+            var date = DateTime.MinValue;
+
+            // Act
+            var result = await _controller.Get(date);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task GetByDate_ReturnsOkResult_WhenDateIsToday()
+        {
+            // Arrange
+            var date = DateTime.Today;
+            var report = new Report { ProcessingDate = date };
+            var reportModel = new ReportModel { ProcessingDate = date };
+            _mockReportApplication.Setup(x => x.Report(date)).ReturnsAsync(report);
+            _mockMapper.Setup(m => m.Map<ReportModel>(It.IsAny<Report>())).Returns(reportModel);
+
+            // Act
+            var result = await _controller.Get(date);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(reportModel, okResult.Value);
+            _mockReportApplication.Verify(x => x.Report(date), Times.Once);
+        }
     }
 }

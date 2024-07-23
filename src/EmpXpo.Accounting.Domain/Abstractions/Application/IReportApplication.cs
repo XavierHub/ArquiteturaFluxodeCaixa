@@ -3,6 +3,6 @@
     public interface IReportApplication
     {
         public Task<IEnumerable<DateTime>> ListDates();
-        public Task<IEnumerable<Report>> Report(DateTime date);
+        public Task<Report> Report(DateTime date);
     }
 }

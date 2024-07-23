@@ -9,7 +9,7 @@
             Create a specific CashFlow
             </summary>        
             <response code="201">CashFlow created</response>
-            <response code="400">CashFlow has missing/invalid values</response>
+            <response code="404">CashFlow has missing/invalid values</response>
             <response code="500">Can't create your cashFlow right now</response>
         </member>
         <member name="P:EmpXpo.Accounting.CashFlowApi.CashFlowModel.Id">

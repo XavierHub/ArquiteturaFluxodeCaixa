@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Reflection;
 
-namespace EmpXpo.Accounting.SellerApi.Middlewares
+namespace EmpXpo.Accounting.CashFlowSellerApi.Middlewares
 {
     public class SellerExceptionHandlingMiddleware
     {

@@ -6,12 +6,11 @@ namespace EmpXpo.Accounting.Domain.Abstractions.Repositories
     {
         public Task<IEnumerable<T>> GetAll();
         public Task<T> GetById(object parm);
+        public Task<T> Get(string spName, object? parm = null);
         public Task<object> Insert(T entity);
         public Task<bool> Delete(T entity);
         public Task<bool> Update(T entity);
-
         public Task<IEnumerable<T>> Query(Expression<Func<T, bool>> expression);
-
         public Task<IEnumerable<U>> Query<U>(string spName, object? parm = null);
     }
 }

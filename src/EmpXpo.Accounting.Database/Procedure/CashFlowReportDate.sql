@@ -10,8 +10,7 @@ BEGIN
      
        SELECT DISTINCT
               FORMAT(cf.CreatedOn, 'yyyy-MM-dd 00:00:00') CreatedOn
-         FROM [dbo].[CashFlow] cf
-         WITH (NOLOCK)
+         FROM [dbo].[CashFlow] cf         
      GROUP BY CreatedOn
 
      SET NOCOUNT OFF;

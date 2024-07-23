@@ -9,11 +9,20 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702,CS8604,CS8625</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702,CS8604,CS8625</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="Moq.Dapper" Version="1.0.7" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
@@ -24,6 +33,7 @@
     <ProjectReference Include="..\EmpXpo.Accounting.CashFlowReportApi\EmpXpo.Accounting.CashFlowReportApi.csproj" />        
     <ProjectReference Include="..\EmpXpo.Accounting.Domain\EmpXpo.Accounting.Domain.csproj" />
     <ProjectReference Include="..\EmpXpo.Accounting.Repository\EmpXpo.Accounting.Repository.csproj" />
+    <ProjectReference Include="..\EmpXpo.Accounting.SellerApi\EmpXpo.Accounting.CashFlowSellerApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

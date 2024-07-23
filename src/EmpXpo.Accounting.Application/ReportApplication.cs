@@ -9,36 +9,37 @@ namespace EmpXpo.Accounting.Application
     {
         private readonly IRepository<Report> _cashFlowReportRepository;
         private readonly IValidatorService<Report> _validatorService;
-        private readonly IGenericValidatorService<DateTime> _genericValidatorService;
 
-        public ReportApplication(IRepository<Report> reportReportRepository, 
-                                 IValidatorService<Report> validatorService,
-                                 IGenericValidatorService<DateTime> genericValidatorService
+        public ReportApplication(IRepository<Report> reportReportRepository,
+                                 IValidatorService<Report> validatorService
                                 ) : base(reportReportRepository, validatorService)
         {
             _validatorService = validatorService;
-            _genericValidatorService = genericValidatorService;
             _cashFlowReportRepository = reportReportRepository;
         }
 
         public async Task<IEnumerable<DateTime>> ListDates()
         {
-            return await _cashFlowReportRepository.Query<DateTime>("CashFlowReportDate");
+            var result = await _cashFlowReportRepository.Query<DateTime>("CashFlowReportDate");
+
+            return result.Distinct();
         }
 
-        public async Task<IEnumerable<Report>> Report(DateTime model)
+        public async Task<Report> Report(DateTime date)
         {
-            var result = _genericValidatorService.IsValid(model);            
+            var result = await _validatorService.IsValidValue(nameof(date), date, (date) => date is DateTime dt && dt > DateTime.MinValue);
+            var report = new Report();
 
             if (result)
             {
-                var startDate = new DateTime(model.Year, model.Month, model.Day);
+                var startDate = new DateTime(date.Year, date.Month, date.Day);
                 var endDate = startDate.AddDays(1);
 
-                return (await _cashFlowReportRepository.Query<Report>("CashFlowReport", new { startDate, endDate }));
+                report = await _cashFlowReportRepository.Get("CashFlowReport", new { startDate, endDate });
+                report.Reference = date;
             }
 
-            return new List<Report>();
+            return report;
         }
     }
 }

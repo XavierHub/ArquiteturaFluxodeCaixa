@@ -1,43 +1,53 @@
 ﻿using EmpXpo.Accounting.Domain.Abstractions.Services;
 using EmpXpo.Accounting.Domain.Enumerators;
 using FluentValidation;
+using FluentValidation.Results;
 
 namespace EmpXpo.Accounting.Application.Services.Validators
 {
-    public abstract class ValidatorServiceBase<T> : AbstractValidator<T>
+    public abstract class ValidatorServiceBase<T>
     {
         protected readonly InlineValidator<T> _validator;
-        protected readonly InlineValidator<int?> _validatorId;
-        protected readonly INotifierService _notifierService;        
+        private readonly INotifierService _notifierService;
 
         protected ValidatorServiceBase(INotifierService notifierService)
         {
             _validator = new InlineValidator<T>();
-            _validatorId = new InlineValidator<int?>();
             _notifierService = notifierService;
-
-            _validatorId.RuleFor(x => x).NotNull().GreaterThan(0).WithName("Id"); ;
         }
 
-        public virtual bool IsValid(ValidatorType validatorType, T? model, int? id)
+        public virtual async Task<bool> IsValidAsync(ValidatorType validatorType, T? model)
         {
-            var isValid = true;
-            if (validatorType == ValidatorType.Get || validatorType == ValidatorType.Update || validatorType == ValidatorType.Delete)
+            if (model == null)
             {
-                var validateResultId =  _validatorId.Validate(id);
-                isValid = validateResultId.IsValid;
-                _notifierService.Add(validateResultId);
+                _notifierService.Add(new ValidationResult(new[] { new ValidationFailure("", "Model is null") }));
+                return false;
             }
 
-            if (model != null)
-            {
-                var validateResultModel = _validator.Validate(model);
-                _notifierService.Add(validateResultModel);
+            var validateResultModel = await _validator.ValidateAsync(model);
+            _notifierService.Add(validateResultModel);
 
-                isValid = isValid && validateResultModel.IsValid;
+            return validateResultModel.IsValid;
+        }
+
+        public async Task<bool> IsValidValue<TValue>(string name, TValue? value, Func<TValue, bool> validationRule, string errorMessage = "The '{PropertyName}' has an invalid value")
+        {
+            var validator = new InlineValidator<TValue>();
+            if (value == null)
+            {
+                _notifierService.Add(new ValidationResult(new[] { new ValidationFailure(name, "The '{PropertyName}' property cannot be null") }));
+                return false;
             }
 
-            return isValid;
+            validator.RuleFor(x => x)
+                .Must(validationRule)
+                .WithName(name)
+                .WithMessage(errorMessage);
+
+            var validateResultModel = await validator.ValidateAsync(value);
+            _notifierService.Add(validateResultModel);
+
+            return validateResultModel.IsValid;
         }
     }
 }
