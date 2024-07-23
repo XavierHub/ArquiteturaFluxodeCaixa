@@ -142,9 +142,6 @@ Para o sistema de controle de fluxo de caixa, utilizaremos o padrão **Domain No
 ### Inversion of Control (IoC)
 IoC promove a flexibilidade e testabilidade do código ao permitir a injeção de dependências em vez de instanciá-las diretamente. Isso facilita a implementação de testes unitários e promove a adesão aos princípios SOLID, resultando em um código mais modular e de fácil manutenção.
 
-### Model-View-ViewModel (MVVM)
-MVVM separa claramente a lógica de apresentação da lógica de negócios, permitindo um desenvolvimento mais organizado e testável. Esse padrão é especialmente útil para aplicações com interfaces ricas, como no ASP.NET MVC, garantindo que a lógica de UI seja mantida separada do restante do código.
-
 ### Repository Pattern (com Dapper)
 O Repository Pattern abstrai o acesso aos dados, permitindo que a lógica de negócios interaja com uma camada de repositório em vez de acessar diretamente o banco de dados. Isso promove a separação de preocupações e facilita a implementação de testes unitários. O uso do Dapper, por ser um micro ORM leve, garante alta performance nas operações de banco de dados.
 
