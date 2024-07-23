@@ -18,8 +18,7 @@ BEGIN
            ISNULL(SUM(CASE WHEN cf.[Type] = 0 THEN cf.[Amount] ELSE 0 END), 0) AS [Debit],
            ISNULL(SUM(CASE WHEN cf.[Type] = 1 THEN cf.[Amount] ELSE 0 END), 0) AS [Credit],
            ISNULL(SUM(CASE WHEN cf.[Type] = 0 THEN cf.[Amount] ELSE 0 END), 0) +
-           ISNULL(SUM(CASE WHEN cf.[Type] = 1 THEN cf.[Amount] ELSE 0 END), 0) AS [DailyBalance],
-           CAST(cf.[CreatedOn] AS DATE)                                        AS [ReferenceDate],
+           ISNULL(SUM(CASE WHEN cf.[Type] = 1 THEN cf.[Amount] ELSE 0 END), 0) AS [DailyBalance],           
            GETDATE()                                                           AS [ProcessingDate]
       FROM [dbo].[CashFlow] cf
      WHERE cf.[CreatedOn] BETWEEN @StartDate AND @EndDate;
